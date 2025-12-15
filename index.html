@@ -130,19 +130,29 @@
         border-color: #22c55e;
         transform: rotate(-15deg);
       }
+      
+      /* Logo pill for visibility */
+      .logo-pill {
+        background: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
     </style>
 <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.557.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.26",
-    "react-hook-form": "https://aistudiocdn.com/react-hook-form@^7.68.0"
+    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "react-hook-form": "https://esm.sh/react-hook-form@^7.68.0"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
@@ -160,24 +170,37 @@
             </a>
 
             <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#features" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors">Features</a>
-                <a href="#how-it-works" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors">How It Works</a>
-                <a href="#market" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors">Market</a>
-                <a href="#footer" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors">About</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#features" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors" data-i18n="nav_features">Features</a>
+                <a href="#how-it-works" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors" data-i18n="nav_how">How It Works</a>
+                <a href="#market" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors" data-i18n="nav_market">Market</a>
+                <a href="#footer" class="text-sm font-medium nav-link text-white/90 hover:text-white transition-colors" data-i18n="nav_about">About</a>
                 
+                <!-- Language Switcher -->
+                <div class="flex items-center gap-1 bg-white/10 rounded-full p-1 border border-white/10 nav-lang-container">
+                    <button onclick="setLanguage('en')" class="lang-btn px-2 py-1 text-xs rounded-full transition-colors font-bold text-white bg-white/20" data-lang="en">EN</button>
+                    <button onclick="setLanguage('lv')" class="lang-btn px-2 py-1 text-xs rounded-full transition-colors text-white/70 hover:text-white" data-lang="lv">LV</button>
+                    <button onclick="setLanguage('ru')" class="lang-btn px-2 py-1 text-xs rounded-full transition-colors text-white/70 hover:text-white" data-lang="ru">RU</button>
+                </div>
+
                 <button id="theme-toggle" class="p-2 rounded-full transition-colors bg-white/20 text-white hover:bg-white/30 nav-btn">
                     <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
                     <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
                 </button>
 
-                <a href="#waitlist" class="px-5 py-2.5 bg-riga-blue hover:bg-blue-500 text-white text-sm font-bold rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                <a href="#waitlist" class="px-5 py-2.5 bg-riga-blue hover:bg-blue-500 text-white text-sm font-bold rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="nav_waitlist">
                     Join Waitlist
                 </a>
             </div>
 
             <!-- Mobile Menu Button -->
             <div class="md:hidden flex items-center gap-4">
+                 <!-- Mobile Language -->
+                 <div class="flex items-center gap-1 bg-white/10 rounded-full p-1 border border-white/10 nav-lang-container">
+                    <button onclick="setLanguage('en')" class="lang-btn px-2 py-1 text-[10px] rounded-full transition-colors font-bold text-white bg-white/20" data-lang="en">EN</button>
+                    <button onclick="setLanguage('lv')" class="lang-btn px-2 py-1 text-[10px] rounded-full transition-colors text-white/70 hover:text-white" data-lang="lv">LV</button>
+                </div>
+
                 <button id="theme-toggle-mobile" class="p-2 rounded-full bg-white/20 text-white nav-btn">
                     <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
                     <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
@@ -190,10 +213,17 @@
 
         <!-- Mobile Menu Overlay -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-xl border-t border-gray-100 dark:border-gray-800 p-4 flex-col gap-4 animate-fade-in-down">
-            <a href="#features" class="text-lg font-medium text-gray-800 dark:text-gray-200 py-2 border-b border-gray-100 dark:border-gray-800">Features</a>
-            <a href="#how-it-works" class="text-lg font-medium text-gray-800 dark:text-gray-200 py-2 border-b border-gray-100 dark:border-gray-800">How It Works</a>
-            <a href="#market" class="text-lg font-medium text-gray-800 dark:text-gray-200 py-2 border-b border-gray-100 dark:border-gray-800">Market</a>
-            <a href="#waitlist" class="w-full text-center py-3 bg-riga-blue text-white font-bold rounded-lg shadow-md active:scale-95 transition-transform">Join Waitlist</a>
+            <a href="#features" class="text-lg font-medium text-gray-800 dark:text-gray-200 py-2 border-b border-gray-100 dark:border-gray-800" data-i18n="nav_features">Features</a>
+            <a href="#how-it-works" class="text-lg font-medium text-gray-800 dark:text-gray-200 py-2 border-b border-gray-100 dark:border-gray-800" data-i18n="nav_how">How It Works</a>
+            <a href="#market" class="text-lg font-medium text-gray-800 dark:text-gray-200 py-2 border-b border-gray-100 dark:border-gray-800" data-i18n="nav_market">Market</a>
+            
+            <div class="flex justify-center gap-4 py-2">
+                 <button onclick="setLanguage('en')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-sm font-bold">English</button>
+                 <button onclick="setLanguage('lv')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-sm font-bold">Latviešu</button>
+                 <button onclick="setLanguage('ru')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-sm font-bold">Русский</button>
+            </div>
+
+            <a href="#waitlist" class="w-full text-center py-3 bg-riga-blue text-white font-bold rounded-lg shadow-md active:scale-95 transition-transform" data-i18n="nav_waitlist">Join Waitlist</a>
         </div>
     </nav>
 
@@ -212,29 +242,26 @@
             <div class="text-white space-y-6 max-w-xl animate-fade-in-up">
                 <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 text-sm font-medium text-blue-100">
                     <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    Live in Riga, Latvia
+                    <span data-i18n="hero_badge">Live in Riga, Latvia</span>
                 </div>
                 
                 <h1 class="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-                    Swipe Right for a <br/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-riga-blue to-white">
+                    <span data-i18n="hero_title_1">Swipe Right for a</span> <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-riga-blue to-white" data-i18n="hero_title_highlight">
                         Meister
                     </span> <br/>
-                    Who Shows Up.
+                    <span data-i18n="hero_title_2">Who Shows Up.</span>
                 </h1>
                 
-                <p class="text-lg md:text-xl text-gray-300 leading-relaxed">
+                <p class="text-lg md:text-xl text-gray-300 leading-relaxed" data-i18n="hero_desc">
                     Latvia's fastest way to match with vetted masters. Plumbers, cleaners, babysitters & more.
                     <br class="hidden md:block"/> No more ss.lv ghosts.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
                     <a href="#waitlist" class="px-8 py-4 bg-riga-blue hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1">
-                        Join Waitlist <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        <span data-i18n="hero_cta">Join Waitlist</span> <i data-lucide="arrow-right" class="w-5 h-5"></i>
                     </a>
-                    <button class="px-8 py-4 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all">
-                        <i data-lucide="play-circle" class="w-5 h-5"></i> See Demo
-                    </button>
                 </div>
 
                 <div class="flex items-center gap-4 pt-6 text-sm text-gray-400">
@@ -244,7 +271,7 @@
                         <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&h=100&fit=crop" class="w-8 h-8 rounded-full border-2 border-riga-dark object-cover" alt="User" />
                         <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop" class="w-8 h-8 rounded-full border-2 border-riga-dark object-cover" alt="User" />
                     </div>
-                    <p>Trusted by 500+ Riga locals on the waitlist</p>
+                    <p data-i18n="hero_trusted">Trusted by 500+ Riga locals on the waitlist</p>
                 </div>
             </div>
 
@@ -302,10 +329,10 @@
     <section class="py-20 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-4">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    Tired of <span class="text-riga-blue">ss.lv</span> Ghosts & Facebook Flakes?
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="problem_title">
+                    Tired of ss.lv Ghosts & Facebook Flakes?
                 </h2>
-                <p class="text-xl text-gray-600 dark:text-gray-400">
+                <p class="text-xl text-gray-600 dark:text-gray-400" data-i18n="problem_desc">
                     50k+ Riga folks search for help daily—80% are frustrated with the current chaos.
                 </p>
             </div>
@@ -321,9 +348,9 @@
                                      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" class="w-full h-full object-cover" />
                                 </div>
                                 <div class="bg-gray-200 dark:bg-gray-700 p-4 rounded-r-xl rounded-bl-xl flex-1">
-                                    <p class="font-semibold text-gray-500 text-xs uppercase mb-1">The Old Way</p>
-                                    <p class="text-gray-800 dark:text-gray-300 text-sm">"Hello? Can you fix my sink today?"</p>
-                                    <p class="text-red-500 text-xs font-bold mt-2">Read 10:45 AM • No Reply</p>
+                                    <p class="font-semibold text-gray-500 text-xs uppercase mb-1" data-i18n="problem_old_way">The Old Way</p>
+                                    <p class="text-gray-800 dark:text-gray-300 text-sm" data-i18n="problem_old_msg">"Hello? Can you fix my sink today?"</p>
+                                    <p class="text-red-500 text-xs font-bold mt-2" data-i18n="problem_old_status">Read 10:45 AM • No Reply</p>
                                 </div>
                             </div>
                             
@@ -334,8 +361,8 @@
                                     <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop" class="w-full h-full object-cover" />
                                 </div>
                                 <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 p-4 rounded-r-xl rounded-bl-xl flex-1 shadow-sm">
-                                    <p class="font-semibold text-riga-blue text-xs uppercase mb-1">MeisterMatch</p>
-                                    <p class="text-gray-800 dark:text-gray-200 text-sm font-medium">Match found! Jānis is 1.2km away.</p>
+                                    <p class="font-semibold text-riga-blue text-xs uppercase mb-1" data-i18n="problem_new_way">MeisterMatch</p>
+                                    <p class="text-gray-800 dark:text-gray-200 text-sm font-medium" data-i18n="problem_new_msg">Match found! Jānis is 1.2km away.</p>
                                     <div class="mt-3 flex gap-2">
                                         <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded">Vetted</span>
                                         <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">4.9 ★</span>
@@ -353,8 +380,8 @@
                             <i data-lucide="clock" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">1-3 Day Waits</h3>
-                            <p class="text-gray-600 dark:text-gray-400">For urgent fixes? A pipe burst doesn't wait for business hours.</p>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="problem_1_title">1-3 Day Waits</h3>
+                            <p class="text-gray-600 dark:text-gray-400" data-i18n="problem_1_desc">For urgent fixes? A pipe burst doesn't wait for business hours.</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors">
@@ -362,8 +389,8 @@
                             <i data-lucide="ghost" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">ss.lv Ghosts</h3>
-                            <p class="text-gray-600 dark:text-gray-400">You call, they promise to come, then vanish. Typical Friday.</p>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="problem_2_title">ss.lv Ghosts</h3>
+                            <p class="text-gray-600 dark:text-gray-400" data-i18n="problem_2_desc">You call, they promise to come, then vanish. Typical Friday.</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors">
@@ -371,8 +398,8 @@
                             <i data-lucide="shield-alert" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">No Accountability</h3>
-                            <p class="text-gray-600 dark:text-gray-400">Scams on unverified directories. No reviews, no trust.</p>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="problem_3_title">No Accountability</h3>
+                            <p class="text-gray-600 dark:text-gray-400" data-i18n="problem_3_desc">Scams on unverified directories. No reviews, no trust.</p>
                         </div>
                     </div>
                 </div>
@@ -384,9 +411,9 @@
     <section id="features" class="py-20 bg-gray-50 dark:bg-gray-900/50">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <span class="text-riga-blue font-bold tracking-wider uppercase text-sm">The Solution</span>
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mt-2 mb-6">
-                    Match in Minutes, <span class="italic text-gray-500 font-serif">Fix in Hours.</span>
+                <span class="text-riga-blue font-bold tracking-wider uppercase text-sm" data-i18n="solution_label">The Solution</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mt-2 mb-6" data-i18n="solution_title">
+                    Match in Minutes, Fix in Hours.
                 </h2>
             </div>
 
@@ -396,42 +423,42 @@
                     <div class="bg-blue-500 w-12 h-12 rounded-xl flex items-center justify-center text-white mb-6 shadow-md">
                         <i data-lucide="smartphone" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Swipe Matching</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Intuitive Tinder-style interface. Swipe right to hire, left to pass.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="sol_1_title">Swipe Matching</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed" data-i18n="sol_1_desc">Intuitive Tinder-style interface. Swipe right to hire, left to pass.</p>
                 </div>
                 <!-- Card 2 -->
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-2 transition-transform">
                     <div class="bg-green-500 w-12 h-12 rounded-xl flex items-center justify-center text-white mb-6 shadow-md">
                         <i data-lucide="check-circle" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Vetted Meisters</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Rigorous ID checks and skills verification. Only 4.8+ stars.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="sol_2_title">Vetted Meisters</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed" data-i18n="sol_2_desc">Rigorous ID checks and skills verification. Only 4.8+ stars.</p>
                 </div>
                 <!-- Card 3 -->
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-2 transition-transform">
                     <div class="bg-purple-500 w-12 h-12 rounded-xl flex items-center justify-center text-white mb-6 shadow-md">
                         <i data-lucide="message-square" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Easy Booking</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">In-app chat with auto-translation (LV/RU/EN).</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="sol_3_title">Easy Booking</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed" data-i18n="sol_3_desc">In-app chat with auto-translation (LV/RU/EN).</p>
                 </div>
                 <!-- Card 4 -->
                 <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-2 transition-transform">
                     <div class="bg-red-500 w-12 h-12 rounded-xl flex items-center justify-center text-white mb-6 shadow-md">
                         <i data-lucide="map-pin" class="w-6 h-6"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Riga-First</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Hyper-local geo-matching. Badges for winter emergencies.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="sol_4_title">Riga-First</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed" data-i18n="sol_4_desc">Hyper-local geo-matching. Badges for winter emergencies.</p>
                 </div>
             </div>
 
             <div class="mt-16 flex flex-col items-center justify-center text-center">
-                <p class="text-sm text-gray-500 mb-6 uppercase tracking-widest">Secure Local Payments</p>
-                <div class="flex flex-wrap justify-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all items-center">
-                    <img src="https://logo.clearbit.com/swedbank.lv" alt="Swedbank" class="h-8 md:h-10 object-contain" onerror="this.src='https://placehold.co/100x40?text=Swedbank'" />
-                    <img src="https://logo.clearbit.com/seb.lv" alt="SEB" class="h-8 md:h-10 object-contain" onerror="this.src='https://placehold.co/100x40?text=SEB'" />
-                    <img src="https://logo.clearbit.com/citadele.lv" alt="Citadele" class="h-8 md:h-10 object-contain" onerror="this.src='https://placehold.co/100x40?text=Citadele'" />
-                    <img src="https://logo.clearbit.com/revolut.com" alt="Revolut" class="h-8 md:h-10 object-contain" onerror="this.src='https://placehold.co/100x40?text=Revolut'" />
+                <p class="text-sm text-gray-500 mb-6 uppercase tracking-widest" data-i18n="secure_payments">Secure Local Payments</p>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-12 opacity-80 items-center">
+                    <div class="logo-pill"><img src="https://logo.clearbit.com/swedbank.lv" alt="Swedbank" class="h-6 md:h-8 object-contain" /></div>
+                    <div class="logo-pill"><img src="https://logo.clearbit.com/seb.lv" alt="SEB" class="h-6 md:h-8 object-contain" /></div>
+                    <div class="logo-pill"><img src="https://logo.clearbit.com/citadele.lv" alt="Citadele" class="h-6 md:h-8 object-contain" /></div>
+                    <div class="logo-pill"><img src="https://logo.clearbit.com/revolut.com" alt="Revolut" class="h-6 md:h-8 object-contain" /></div>
                 </div>
             </div>
         </div>
@@ -440,46 +467,30 @@
     <!-- How It Works -->
     <section id="how-it-works" class="py-20 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row gap-12 items-center">
-                <div class="md:w-1/2">
-                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-8">
-                        3 Swipes to <span class="text-riga-blue underline decoration-4 decoration-riga-blue/30">Saved</span>.
+            <div class="flex flex-col gap-12 items-center text-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-12" data-i18n="how_title">
+                        3 Swipes to Saved.
                     </h2>
-                    <div class="space-y-10 relative">
-                        <div class="absolute left-6 top-4 bottom-4 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-                        <!-- Steps -->
-                        <div class="relative flex gap-6">
-                            <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-gray-800 border-2 border-riga-blue flex items-center justify-center font-bold text-riga-blue shadow-sm shrink-0">01</div>
-                            <div class="pt-2">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Pick a Category</h3>
-                                <p class="text-gray-600 dark:text-gray-400 max-w-sm">Plumbing, cleaning, electric, or snow removal.</p>
-                            </div>
+                    <div class="grid md:grid-cols-3 gap-8 text-left">
+                        <!-- Step 1 -->
+                        <div class="flex flex-col items-center text-center p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <div class="w-16 h-16 rounded-full bg-white dark:bg-gray-700 border-2 border-riga-blue flex items-center justify-center font-bold text-riga-blue text-xl shadow-md mb-4">01</div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="step_1_title">Pick a Category</h3>
+                            <p class="text-gray-600 dark:text-gray-400" data-i18n="step_1_desc">Plumbing, cleaning, electric, or snow removal. Tell us what you need.</p>
                         </div>
-                        <div class="relative flex gap-6">
-                            <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-gray-800 border-2 border-riga-blue flex items-center justify-center font-bold text-riga-blue shadow-sm shrink-0">02</div>
-                            <div class="pt-2">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Swipe & Match</h3>
-                                <p class="text-gray-600 dark:text-gray-400 max-w-sm">Browse vetted profiles nearby. Swipe right on the fits.</p>
-                            </div>
+                        <!-- Step 2 -->
+                        <div class="flex flex-col items-center text-center p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <div class="w-16 h-16 rounded-full bg-white dark:bg-gray-700 border-2 border-riga-blue flex items-center justify-center font-bold text-riga-blue text-xl shadow-md mb-4">02</div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="step_2_title">Swipe & Match</h3>
+                            <p class="text-gray-600 dark:text-gray-400" data-i18n="step_2_desc">Browse vetted profiles nearby. Swipe right on the fits.</p>
                         </div>
-                        <div class="relative flex gap-6">
-                            <div class="z-10 w-12 h-12 rounded-full bg-white dark:bg-gray-800 border-2 border-riga-blue flex items-center justify-center font-bold text-riga-blue shadow-sm shrink-0">03</div>
-                            <div class="pt-2">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Chat & Fix</h3>
-                                <p class="text-gray-600 dark:text-gray-400 max-w-sm">Confirm details. Meister arrives. Job done.</p>
-                            </div>
+                        <!-- Step 3 -->
+                        <div class="flex flex-col items-center text-center p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <div class="w-16 h-16 rounded-full bg-white dark:bg-gray-700 border-2 border-riga-blue flex items-center justify-center font-bold text-riga-blue text-xl shadow-md mb-4">03</div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2" data-i18n="step_3_title">Chat & Fix</h3>
+                            <p class="text-gray-600 dark:text-gray-400" data-i18n="step_3_desc">Confirm details in chat. Meister arrives. Job done.</p>
                         </div>
-                    </div>
-                </div>
-                <div class="md:w-1/2 relative">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-blue-100 to-green-100 dark:from-blue-900/20 dark:to-green-900/20 rounded-full blur-3xl opacity-50"></div>
-                    <div class="relative aspect-video bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border-4 border-white dark:border-gray-800 group cursor-pointer hover:scale-[1.02] transition-transform">
-                        <div class="absolute inset-0 flex items-center justify-center z-10">
-                            <div class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <div class="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2"></div>
-                            </div>
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-60" />
                     </div>
                 </div>
             </div>
@@ -491,41 +502,41 @@
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-5xl font-bold mb-6">€50M Riga Gig Opportunity</h2>
-                <p class="text-blue-100 max-w-2xl mx-auto text-lg">The gig economy is growing 7% annually. We are building the infrastructure for the next generation of Latvian workers.</p>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6" data-i18n="market_title">€50M Riga Gig Opportunity</h2>
+                <p class="text-blue-100 max-w-2xl mx-auto text-lg" data-i18n="market_desc">The gig economy is growing 7% annually. We are building the infrastructure for the next generation of Latvian workers.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8 text-center">
                 <div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20">
                     <i data-lucide="trending-up" class="w-10 h-10 mx-auto mb-4 text-green-300"></i>
                     <h3 class="text-4xl font-extrabold mb-2">5-7%</h3>
-                    <p class="text-sm text-blue-100">CAGR Growth</p>
+                    <p class="text-sm text-blue-100" data-i18n="market_stat_1">CAGR Growth</p>
                 </div>
                 <div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20">
                     <i data-lucide="users" class="w-10 h-10 mx-auto mb-4 text-yellow-300"></i>
                     <h3 class="text-4xl font-extrabold mb-2">50,000+</h3>
-                    <p class="text-sm text-blue-100">Monthly searches</p>
+                    <p class="text-sm text-blue-100" data-i18n="market_stat_2">Monthly searches</p>
                 </div>
                 <div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20">
                     <i data-lucide="thumbs-up" class="w-10 h-10 mx-auto mb-4 text-pink-300"></i>
                     <h3 class="text-4xl font-extrabold mb-2">70%</h3>
-                    <p class="text-sm text-blue-100">Interest from r/latvia</p>
+                    <p class="text-sm text-blue-100" data-i18n="market_stat_3">Interest from r/latvia</p>
                 </div>
             </div>
             <div class="mt-16 bg-white/5 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="text-left md:w-2/3">
-                    <div class="text-2xl font-serif italic mb-4">"Saved my winter! The snow removal guy arrived in 45 minutes when my car was stuck."</div>
+                    <div class="text-2xl font-serif italic mb-4" data-i18n="testimonial">"Saved my winter! The snow removal guy arrived in 45 minutes when my car was stuck."</div>
                     <div class="font-bold flex items-center gap-2">
                         <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full border border-white object-cover" />
                         <div>
-                            <div>Anna K.</div>
-                            <div class="text-xs text-blue-200">Mom & Homeowner, Teika</div>
+                            <div data-i18n="testimonial_author">Anna K.</div>
+                            <div class="text-xs text-blue-200" data-i18n="testimonial_role">Mom & Homeowner, Teika</div>
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/3 flex flex-wrap gap-6 justify-center items-center opacity-70">
-                     <img src="https://logo.clearbit.com/bta.lv" alt="BTA" class="h-10 object-contain" onerror="this.style.display='none'" />
-                     <div class="h-10 px-4 bg-[#FF6600] text-black font-extrabold flex items-center justify-center text-xl tracking-tighter rounded-sm shadow-sm">DEPO</div>
-                     <img src="https://logo.clearbit.com/ss.com" alt="ss.com" class="h-8 object-contain" onerror="this.style.display='none'" />
+                <div class="md:w-1/3 flex flex-wrap gap-4 justify-center items-center opacity-90">
+                     <div class="logo-pill"><img src="https://logo.clearbit.com/bta.lv" alt="BTA" class="h-6 object-contain" /></div>
+                     <div class="h-10 px-4 bg-[#FF6600] text-black font-extrabold flex items-center justify-center text-xl tracking-tighter rounded-sm shadow-sm border-2 border-white">DEPO</div>
+                     <div class="logo-pill"><img src="https://logo.clearbit.com/ss.com" alt="ss.com" class="h-6 object-contain" /></div>
                 </div>
             </div>
         </div>
@@ -536,31 +547,31 @@
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <div>
-                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">Free to Start.<br/>Fair for All.</h2>
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6" data-i18n="pricing_title">Free to Start.<br/>Fair for All.</h2>
                     <div class="space-y-6">
                         <div class="p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-l-4 border-riga-blue shadow-sm">
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Customers</h3>
-                            <div class="text-3xl font-extrabold my-2 text-riga-blue">Free</div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="cust_title">Customers</h3>
+                            <div class="text-3xl font-extrabold my-2 text-riga-blue" data-i18n="cust_price">Free</div>
                             <ul class="space-y-2 mt-4 text-sm text-gray-700 dark:text-gray-300">
-                                <li class="flex gap-2 items-center"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Unlimited Swipes</li>
-                                <li class="flex gap-2 items-center"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Secure Payments</li>
+                                <li class="flex gap-2 items-center"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> <span data-i18n="cust_feat_1">Unlimited Swipes</span></li>
+                                <li class="flex gap-2 items-center"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> <span data-i18n="cust_feat_2">Secure Payments</span></li>
                             </ul>
                         </div>
                         <div class="p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border-l-4 border-gray-400 shadow-sm opacity-75">
                             <div class="flex justify-between items-center">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Meisters</h3>
-                                <span class="bg-gray-200 dark:bg-gray-700 text-xs px-2 py-1 rounded-full uppercase font-bold text-gray-500">Coming Soon</span>
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="meister_title">Meisters</h3>
+                                <span class="bg-gray-200 dark:bg-gray-700 text-xs px-2 py-1 rounded-full uppercase font-bold text-gray-500" data-i18n="meister_badge">Coming Soon</span>
                             </div>
-                            <div class="text-3xl font-extrabold my-2 text-gray-900 dark:text-gray-200">€9.99<span class="text-sm font-normal text-gray-500">/mo</span></div>
+                            <div class="text-3xl font-extrabold my-2 text-gray-900 dark:text-gray-200" data-i18n="meister_price">€9.99/mo</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white dark:bg-gray-800 p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg z-10">LAUNCHING Q1 2026</div>
+                    <div class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg z-10" data-i18n="launch_badge">LAUNCHING Q1 2026</div>
                     <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Get Early Access</h3>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Join 500+ locals on the list.</p>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="access_title">Get Early Access</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-2" data-i18n="access_desc">Join 500+ locals on the list.</p>
                     </div>
 
                     <div id="waitlist-success" class="hidden bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 p-6 rounded-xl text-center">
@@ -572,13 +583,13 @@
 
                     <form id="waitlist-form" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" data-i18n="email_label">Email Address</label>
                             <div class="relative">
                                 <i data-lucide="mail" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
                                 <input type="email" required placeholder="janis@example.com" class="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-riga-blue outline-none transition-all" />
                             </div>
                         </div>
-                        <button type="submit" class="w-full py-4 bg-riga-blue hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1">
+                        <button type="submit" class="w-full py-4 bg-riga-blue hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1" data-i18n="btn_join">
                             Join Waitlist
                         </button>
                     </form>
@@ -591,9 +602,9 @@
     <footer class="bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 pt-16 pb-8">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-                <p>&copy; 2025 MeisterMatch LV. All rights reserved.</p>
+                <p data-i18n="footer_rights">&copy; 2025 MeisterMatch LV. All rights reserved.</p>
                 <div class="flex items-center gap-2 text-xs text-gray-400">
-                    <span>Proudly made in</span>
+                    <span data-i18n="footer_made">Proudly made in</span>
                     <div class="h-3 w-5 bg-latvia-red relative border border-gray-600/20"><div class="absolute top-1/3 bottom-1/3 left-0 right-0 bg-white"></div></div>
                     <span>Latvia</span>
                 </div>
@@ -604,10 +615,10 @@
     <!-- Cookie Consent -->
     <div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 z-50 p-4">
         <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 animate-fade-in-up">
-            <p class="text-sm text-gray-600 dark:text-gray-300"><strong>Mēs izmantojam sīkdatnes</strong> (cookies) to improve your experience.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-300" data-i18n="cookie_text">We use cookies to improve your experience.</p>
             <div class="flex gap-3">
-                <button onclick="hideCookie()" class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Decline</button>
-                <button onclick="acceptCookie()" class="px-6 py-2 text-sm font-bold bg-riga-blue hover:bg-blue-600 text-white rounded-lg">Accept</button>
+                <button onclick="hideCookie()" class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg" data-i18n="cookie_decline">Decline</button>
+                <button onclick="acceptCookie()" class="px-6 py-2 text-sm font-bold bg-riga-blue hover:bg-blue-600 text-white rounded-lg" data-i18n="cookie_accept">Accept</button>
             </div>
         </div>
     </div>
@@ -616,8 +627,8 @@
     <div id="match-popup" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in-up">
         <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl max-w-sm w-full mx-4 text-center border-2 border-riga-blue shadow-2xl animate-pop-in">
             <div class="text-5xl mb-4">🎉</div>
-            <h2 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-riga-blue to-purple-500 mb-2">It's a Match!</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">You and <span id="match-name" class="font-bold">Jānis</span> want to work together.</p>
+            <h2 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-riga-blue to-purple-500 mb-2" data-i18n="match_title">It's a Match!</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6"><span data-i18n="match_desc">You and Jānis want to work together.</span></p>
             
             <div class="flex justify-center gap-4 mb-8">
                 <div class="w-16 h-16 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
@@ -628,8 +639,8 @@
                 </div>
             </div>
 
-            <button onclick="startChat()" class="w-full py-3 bg-riga-blue text-white font-bold rounded-xl mb-3 hover:scale-105 transition-transform">Send Message</button>
-            <button onclick="closeMatch()" class="w-full py-3 text-gray-500 font-medium hover:text-gray-800 dark:hover:text-white">Keep Swiping</button>
+            <button onclick="startChat()" class="w-full py-3 bg-riga-blue text-white font-bold rounded-xl mb-3 hover:scale-105 transition-transform" data-i18n="btn_msg">Send Message</button>
+            <button onclick="closeMatch()" class="w-full py-3 text-gray-500 font-medium hover:text-gray-800 dark:hover:text-white" data-i18n="btn_keep">Keep Swiping</button>
         </div>
     </div>
 
@@ -670,13 +681,272 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        // --- TRANSLATIONS ---
+        const translations = {
+          en: {
+            nav_features: "Features",
+            nav_how: "How It Works",
+            nav_market: "Market",
+            nav_about: "About",
+            nav_waitlist: "Join Waitlist",
+            hero_badge: "Live in Riga, Latvia",
+            hero_title_1: "Swipe Right for a",
+            hero_title_highlight: "Meister",
+            hero_title_2: "Who Shows Up.",
+            hero_desc: "Latvia's fastest way to match with vetted masters. Plumbers, cleaners, babysitters & more. No more ss.lv ghosts.",
+            hero_cta: "Join Waitlist",
+            hero_trusted: "Trusted by 500+ Riga locals on the waitlist",
+            problem_title: "Tired of ss.lv Ghosts & Facebook Flakes?",
+            problem_desc: "50k+ Riga folks search for help daily—80% are frustrated with the current chaos.",
+            problem_old_way: "The Old Way",
+            problem_old_msg: "\"Hello? Can you fix my sink today?\"",
+            problem_old_status: "Read 10:45 AM • No Reply",
+            problem_new_way: "MeisterMatch",
+            problem_new_msg: "Match found! Jānis is 1.2km away.",
+            problem_1_title: "1-3 Day Waits",
+            problem_1_desc: "For urgent fixes? A pipe burst doesn't wait for business hours.",
+            problem_2_title: "ss.lv Ghosts",
+            problem_2_desc: "You call, they promise to come, then vanish. Typical Friday.",
+            problem_3_title: "No Accountability",
+            problem_3_desc: "Scams on unverified directories. No reviews, no trust.",
+            solution_label: "The Solution",
+            solution_title: "Match in Minutes, Fix in Hours.",
+            sol_1_title: "Swipe Matching",
+            sol_1_desc: "Intuitive Tinder-style interface. Swipe right to hire, left to pass.",
+            sol_2_title: "Vetted Meisters",
+            sol_2_desc: "Rigorous ID checks and skills verification. Only 4.8+ stars.",
+            sol_3_title: "Easy Booking",
+            sol_3_desc: "In-app chat with auto-translation (LV/RU/EN).",
+            sol_4_title: "Riga-First",
+            sol_4_desc: "Hyper-local geo-matching. Badges for winter emergencies.",
+            secure_payments: "Secure Local Payments",
+            how_title: "3 Swipes to Saved.",
+            step_1_title: "Pick a Category",
+            step_1_desc: "Plumbing, cleaning, electric, or snow removal. Tell us what you need.",
+            step_2_title: "Swipe & Match",
+            step_2_desc: "Browse vetted profiles nearby. Swipe right on the fits.",
+            step_3_title: "Chat & Fix",
+            step_3_desc: "Confirm details in chat. Meister arrives. Job done.",
+            market_title: "€50M Riga Gig Opportunity",
+            market_desc: "The gig economy is growing 7% annually. We are building the infrastructure for the next generation of Latvian workers.",
+            market_stat_1: "CAGR Growth",
+            market_stat_2: "Monthly searches",
+            market_stat_3: "Interest from r/latvia",
+            testimonial: "\"Saved my winter! The snow removal guy arrived in 45 minutes when my car was stuck.\"",
+            testimonial_author: "Anna K.",
+            testimonial_role: "Mom & Homeowner, Teika",
+            pricing_title: "Free to Start. Fair for All.",
+            cust_title: "Customers",
+            cust_price: "Free",
+            cust_feat_1: "Unlimited Swipes",
+            cust_feat_2: "Secure Payments",
+            meister_title: "Meisters",
+            meister_badge: "Coming Soon",
+            meister_price: "€9.99/mo",
+            launch_badge: "LAUNCHING Q1 2026",
+            access_title: "Get Early Access",
+            access_desc: "Join 500+ locals on the list.",
+            email_label: "Email Address",
+            btn_join: "Join Waitlist",
+            footer_rights: "© 2025 MeisterMatch LV. All rights reserved.",
+            footer_made: "Proudly made in",
+            cookie_text: "We use cookies to improve your experience.",
+            cookie_decline: "Decline",
+            cookie_accept: "Accept",
+            match_title: "It's a Match!",
+            match_desc: "You and Jānis want to work together.",
+            btn_msg: "Send Message",
+            btn_keep: "Keep Swiping"
+          },
+          lv: {
+            nav_features: "Funkcijas",
+            nav_how: "Kā tas strādā",
+            nav_market: "Tirgus",
+            nav_about: "Par mums",
+            nav_waitlist: "Pieteikties rindai",
+            hero_badge: "Pieejams Rīgā",
+            hero_title_1: "Swipe pa labi",
+            hero_title_highlight: "Meistaram",
+            hero_title_2: "kas ierodas.",
+            hero_desc: "Ātrākais veids kā atrast pārbaudītus meistarus Rīgā. Santehniķi, apkopēji, auklītes un vairāk. Nekādu ss.lv spoku.",
+            hero_cta: "Pieteikties",
+            hero_trusted: "Uzticas 500+ rīdzinieki",
+            problem_title: "Noguris no ss.lv spokiem?",
+            problem_desc: "50k+ cilvēku Rīgā meklē palīdzību katru dienu - 80% ir neapmierināti ar haosu.",
+            problem_old_way: "Vecais ceļš",
+            problem_old_msg: "\"Sveiki? Vai varat salabot izlietni?\"",
+            problem_old_status: "Izlasīts 10:45 • Nav atbildes",
+            problem_new_way: "MeisterMatch",
+            problem_new_msg: "Saderība! Jānis ir 1.2km attālumā.",
+            problem_1_title: "1-3 Dienu Gaidīšana",
+            problem_1_desc: "Avārijas situācijām? Plīsusi caurule negaida darba laiku.",
+            problem_2_title: "ss.lv Spoki",
+            problem_2_desc: "Jūs zvanāt, viņi sola, tad pazūd. Tipiska piektdiena.",
+            problem_3_title: "Nav Atbildības",
+            problem_3_desc: "Krāpniecība nepārbaudītos portālos. Nav atsauksmju, nav uzticības.",
+            solution_label: "Risinājums",
+            solution_title: "Atrodi minūtēs, salabo stundās.",
+            sol_1_title: "Swipe Saderība",
+            sol_1_desc: "Intuitīva Tinder stila saskarne. Pa labi - nolīgt, pa kreisi - nē.",
+            sol_2_title: "Pārbaudīti Meistari",
+            sol_2_desc: "Stingras ID un prasmju pārbaudes. Tikai 4.8+ zvaigznes.",
+            sol_3_title: "Viegla Rezervācija",
+            sol_3_desc: "Čats lietotnē ar auto-tulkošanu (LV/RU/EN).",
+            sol_4_title: "Rīga Pirmkārt",
+            sol_4_desc: "Lokāla ģeo-saderība. Īpašas nozīmītes ziemas darbiem.",
+            secure_payments: "Droši Vietējie Maksājumi",
+            how_title: "3 Soļi līdz Risinājumam.",
+            step_1_title: "Izvēlies Kategoriju",
+            step_1_desc: "Santehnika, tīrīšana, elektrība vai sniega tīrīšana.",
+            step_2_title: "Swipe & Match",
+            step_2_desc: "Pārlūko pārbaudītus profilus tuvumā. Izvēlies labāko.",
+            step_3_title: "Čats & Darbs",
+            step_3_desc: "Apstiprini detaļas. Meistars ierodas. Darbs darīts.",
+            market_title: "€50M Iespēja Rīgā",
+            market_desc: "Gig ekonomika aug par 7% gadā. Mēs būvējam infrastruktūru nākotnes darbiniekiem.",
+            market_stat_1: "Izaugsme",
+            market_stat_2: "Meklējumi mēnesī",
+            market_stat_3: "Interese no r/latvia",
+            testimonial: "\"Izglāba manu ziemu! Sniega tīrītājs ieradās 45 minūtēs.\"",
+            testimonial_author: "Anna K.",
+            testimonial_role: "Mamma & Īpašniece, Teika",
+            pricing_title: "Bezmaksas Sākums.",
+            cust_title: "Klientiem",
+            cust_price: "0€",
+            cust_feat_1: "Neierobežoti Swipe",
+            cust_feat_2: "Droši Maksājumi",
+            meister_title: "Meistariem",
+            meister_badge: "Drīzumā",
+            meister_price: "€9.99/mēn",
+            launch_badge: "STARTĒJAM Q1 2026",
+            access_title: "Agrīnā Piekļuve",
+            access_desc: "Pievienojies 500+ vietējiem.",
+            email_label: "E-pasta adrese",
+            btn_join: "Pieteikties",
+            footer_rights: "© 2025 MeisterMatch LV. Visas tiesības aizsargātas.",
+            footer_made: "Lepni radīts",
+            cookie_text: "Mēs izmantojam sīkdatnes, lai uzlabotu pieredzi.",
+            cookie_decline: "Noraidīt",
+            cookie_accept: "Pieņemt",
+            match_title: "Tā ir Saderība!",
+            match_desc: "Tu un Jānis vēlaties sadarboties.",
+            btn_msg: "Sūtīt Ziņu",
+            btn_keep: "Turpināt Meklēt"
+          },
+          ru: {
+            nav_features: "Функции",
+            nav_how: "Как это работает",
+            nav_market: "Рынок",
+            nav_about: "О нас",
+            nav_waitlist: "В лист ожидания",
+            hero_badge: "Доступно в Риге",
+            hero_title_1: "Свайп вправо для",
+            hero_title_highlight: "Мастера",
+            hero_title_2: "который приедет.",
+            hero_desc: "Самый быстрый способ найти проверенных мастеров в Риге. Сантехники, уборка и др. Без 'призраков' с ss.lv.",
+            hero_cta: "Присоединиться",
+            hero_trusted: "Доверяют 500+ рижан",
+            problem_title: "Устали от ss.lv?",
+            problem_desc: "50k+ человек в Риге ищут помощь ежедневно — 80% недовольны хаосом.",
+            problem_old_way: "По-старому",
+            problem_old_msg: "\"Привет? Почините раковину сегодня?\"",
+            problem_old_status: "Прочитано 10:45 • Нет ответа",
+            problem_new_way: "MeisterMatch",
+            problem_new_msg: "Совпадение! Янис в 1.2км от вас.",
+            problem_1_title: "Ждать 1-3 Дня",
+            problem_1_desc: "Срочный ремонт? Прорванная труба не ждет рабочих часов.",
+            problem_2_title: "Пропажи с ss.lv",
+            problem_2_desc: "Вы звоните, они обещают, а потом исчезают. Типичная пятница.",
+            problem_3_title: "Нет Ответственности",
+            problem_3_desc: "Мошенничество на непроверенных сайтах. Нет отзывов, нет доверия.",
+            solution_label: "Решение",
+            solution_title: "Найди за минуты, почини за часы.",
+            sol_1_title: "Свайп Поиск",
+            sol_1_desc: "Интуитивный интерфейс. Вправо - нанять, влево - пропустить.",
+            sol_2_title: "Проверенные Мастера",
+            sol_2_desc: "Строгая проверка ID и навыков. Только 4.8+ звезды.",
+            sol_3_title: "Легкое Бронирование",
+            sol_3_desc: "Чат в приложении с авто-переводом (LV/RU/EN).",
+            sol_4_title: "Сначала Рига",
+            sol_4_desc: "Локальный гео-поиск. Бейджи для зимних работ.",
+            secure_payments: "Безопасные Платежи",
+            how_title: "3 Шага к Решению.",
+            step_1_title: "Выберите Категорию",
+            step_1_desc: "Сантехника, уборка, электрика или уборка снега.",
+            step_2_title: "Свайп и Матч",
+            step_2_desc: "Смотрите профили рядом. Выбирайте лучших.",
+            step_3_title: "Чат и Работа",
+            step_3_desc: "Подтвердите детали. Мастер приезжает. Работа сделана.",
+            market_title: "Возможности на €50M",
+            market_desc: "Гиг-экономика растет на 7% в год. Мы строим будущее для латвийских работников.",
+            market_stat_1: "Рост",
+            market_stat_2: "Поисков в месяц",
+            market_stat_3: "Интерес r/latvia",
+            testimonial: "\"Спасли мою зиму! Уборщик снега приехал через 45 минут.\"",
+            testimonial_author: "Анна К.",
+            testimonial_role: "Мама и Владелица, Тейка",
+            pricing_title: "Бесплатный Старт.",
+            cust_title: "Клиентам",
+            cust_price: "0€",
+            cust_feat_1: "Безлимитные Свайпы",
+            cust_feat_2: "Безопасные Платежи",
+            meister_title: "Мастерам",
+            meister_badge: "Скоро",
+            meister_price: "€9.99/мес",
+            launch_badge: "ЗАПУСК Q1 2026",
+            access_title: "Ранний Доступ",
+            access_desc: "Присоединяйтесь к 500+ местным.",
+            email_label: "Email адрес",
+            btn_join: "Присоединиться",
+            footer_rights: "© 2025 MeisterMatch LV. Все права защищены.",
+            footer_made: "Сделано в",
+            cookie_text: "Мы используем файлы cookie для улучшения работы.",
+            cookie_decline: "Отклонить",
+            cookie_accept: "Принять",
+            match_title: "Это Совпадение!",
+            match_desc: "Вы и Янис хотите работать вместе.",
+            btn_msg: "Написать",
+            btn_keep: "Искать дальше"
+          }
+        };
+
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             initTheme();
             renderCards();
             checkCookie();
+            
+            // Check stored language or default to EN
+            const savedLang = localStorage.getItem('app-lang') || 'en';
+            setLanguage(savedLang);
         });
+
+        // --- Language Logic ---
+        function setLanguage(lang) {
+            localStorage.setItem('app-lang', lang);
+            const content = translations[lang];
+            
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (content[key]) {
+                    el.innerText = content[key];
+                }
+            });
+
+            // Update Active State on Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                const btnLang = btn.getAttribute('data-lang');
+                if (btnLang === lang) {
+                    btn.classList.add('bg-white/20', 'font-bold', 'text-white');
+                    btn.classList.remove('text-white/70');
+                } else {
+                    btn.classList.remove('bg-white/20', 'font-bold', 'text-white');
+                    btn.classList.add('text-white/70');
+                }
+            });
+        }
 
         // --- Theme Logic ---
         function initTheme() {
@@ -705,6 +975,8 @@
         const navText = document.querySelectorAll('.nav-text');
         const navLinks = document.querySelectorAll('.nav-link');
         const navBtns = document.querySelectorAll('.nav-btn');
+        const navLangContainers = document.querySelectorAll('.nav-lang-container');
+        const langBtns = document.querySelectorAll('.lang-btn');
         
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) {
@@ -719,6 +991,22 @@
 
                 navBtns.forEach(el => el.classList.remove('bg-white/20', 'text-white'));
                 navBtns.forEach(el => el.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-800', 'dark:text-gray-200'));
+
+                // Handle lang switcher colors on scroll
+                navLangContainers.forEach(el => {
+                    el.classList.remove('border-white/10');
+                    el.classList.add('border-gray-200', 'dark:border-gray-700', 'bg-gray-100/50', 'dark:bg-gray-800/50');
+                });
+                langBtns.forEach(el => {
+                   if (!el.classList.contains('font-bold')) { // if not active
+                       el.classList.remove('text-white/70');
+                       el.classList.add('text-gray-500', 'dark:text-gray-400');
+                   } else { // active button
+                       el.classList.remove('text-white', 'bg-white/20');
+                       el.classList.add('text-white', 'bg-riga-blue');
+                   }
+                });
+
             } else {
                 navbar.classList.remove('bg-white/90', 'dark:bg-gray-900/90', 'backdrop-blur-md', 'shadow-md', 'py-3');
                 navbar.classList.add('py-5', 'bg-transparent');
@@ -731,6 +1019,21 @@
 
                 navBtns.forEach(el => el.classList.add('bg-white/20', 'text-white'));
                 navBtns.forEach(el => el.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-800', 'dark:text-gray-200'));
+
+                // Revert lang switcher colors
+                navLangContainers.forEach(el => {
+                    el.classList.add('border-white/10');
+                    el.classList.remove('border-gray-200', 'dark:border-gray-700', 'bg-gray-100/50', 'dark:bg-gray-800/50');
+                });
+                langBtns.forEach(el => {
+                   if (!el.classList.contains('font-bold')) {
+                       el.classList.add('text-white/70');
+                       el.classList.remove('text-gray-500', 'dark:text-gray-400');
+                   } else {
+                       el.classList.add('text-white', 'bg-white/20');
+                       el.classList.remove('bg-riga-blue');
+                   }
+                });
             }
         });
 
@@ -976,6 +1279,5 @@
         };
 
     </script>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>
