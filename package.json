@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "framer-motion": "^12.23.26",
     "react": "^19.2.3",
     "lucide-react": "^0.561.0",
+    "framer-motion": "^12.23.26",
     "react-hook-form": "^7.68.0"
   },
   "devDependencies": {
